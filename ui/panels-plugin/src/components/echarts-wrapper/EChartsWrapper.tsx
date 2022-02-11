@@ -14,19 +14,20 @@
 import { useState, useLayoutEffect } from 'react';
 import debounce from 'lodash/debounce';
 import { ECharts, EChartsCoreOption, init } from 'echarts/core';
+// import { ElementEvent } from 'zrender';
 import { Box, SxProps, Theme } from '@mui/material';
 
 export type onEventFunction = () => void;
 
-// export type onEventsType = Record<string, onEventFunction>;
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type onEventsType = Record<string, Function>;
 
 export interface EChartsWrapper {
   sx: SxProps<Theme>;
   option: EChartsCoreOption;
   theme?: string;
-  onChartReady?: (instance: ECharts) => void;
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  onEvents?: any;
+  onChartReady?: (instance: ECharts) => ECharts;
+  onEvents?: onEventsType;
 }
 
 export function EChartsWrapper(props: EChartsWrapper) {
@@ -81,9 +82,10 @@ export function EChartsWrapper(props: EChartsWrapper) {
 }
 
 // Validate event config and bind custom events
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
-function bindEvents(instance: ECharts, events: any) {
-  function bindEvent(eventName: string, onEventFunction: unknown) {
+// eslint-disable-next-line @typescript-eslint/ban-types
+function bindEvents(instance: ECharts, events: onEventsType) {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  function bindEvent(eventName: string, onEventFunction: Function) {
     if (typeof eventName === 'string' && typeof onEventFunction === 'function') {
       instance.on(eventName, (param) => {
         onEventFunction(param, instance);

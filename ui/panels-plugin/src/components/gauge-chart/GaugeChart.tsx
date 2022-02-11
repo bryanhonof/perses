@@ -13,10 +13,11 @@
 
 import { useMemo } from 'react';
 import type { EChartsOption } from 'echarts';
-import { use } from 'echarts/core';
+import { ECharts, use } from 'echarts/core';
 import { GaugeChart as EChartsGaugeChart } from 'echarts/charts';
 import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
+// import { ElementEvent } from 'zrender';
 import { JsonObject } from '@perses-ui/core';
 import { formatValue, UnitOptions } from '../../model/units';
 import { convertThresholds, defaultThresholdInput, ThresholdOptions } from '../../model/thresholds';
@@ -193,9 +194,10 @@ export function GaugeChart(props: GaugeChartProps) {
     };
   }, [data, unit, thresholds]);
 
-  // function onChartReadyCallback(echarts) {
-  //   // console.log('onChartReadyCallback -> echarts: ', echarts);
-  // }
+  function onChartReadyCallback(echarts: ECharts) {
+    console.log('onChartReadyCallback -> echarts: ', echarts);
+    return echarts;
+  }
 
   function onChartClick() {
     console.log('onChartClick...');
@@ -225,7 +227,7 @@ export function GaugeChart(props: GaugeChartProps) {
       }}
       option={option}
       theme={'default'}
-      // onChartReady={onChartReadyCallback}
+      onChartReady={onChartReadyCallback}
       onEvents={onEvents}
     />
   );
