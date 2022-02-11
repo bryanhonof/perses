@@ -81,7 +81,7 @@ export function GaugeChart(props: GaugeChartProps) {
           min: 0,
           max: 100,
           splitNumber: 12,
-          silent: true,
+          silent: false,
           progress: {
             show: true,
             width: 22,
@@ -193,13 +193,40 @@ export function GaugeChart(props: GaugeChartProps) {
     };
   }, [data, unit, thresholds]);
 
+  // function onChartReadyCallback(echarts) {
+  //   // console.log('onChartReadyCallback -> echarts: ', echarts);
+  // }
+
+  function onChartClick() {
+    console.log('onChartClick...');
+  }
+
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  function onChartMouseover(params: any) {
+    // console.log('onChartMouseover -> params: ', params);
+    console.log('onChartMouseover -> params.dataIndex: ', params.dataIndex);
+    return params.dataIndex;
+  }
+
+  const onEvents = {
+    click: onChartClick,
+    // legendselectchanged: onChartLegendselectchanged,
+    mouseover: onChartMouseover,
+    // click: this.onChartClick,
+    // legendselectchanged: this.onChartLegendselectchanged,
+  };
+
   return (
     <EChartsWrapper
       sx={{
+        // padding: (theme) => theme.spacing(1),
         width: width,
         height: height,
       }}
       option={option}
+      theme={'default'}
+      // onChartReady={onChartReadyCallback}
+      onEvents={onEvents}
     />
   );
 }

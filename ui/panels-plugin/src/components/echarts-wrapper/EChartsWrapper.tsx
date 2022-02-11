@@ -18,14 +18,15 @@ import { Box, SxProps, Theme } from '@mui/material';
 
 export type onEventFunction = () => void;
 
-export type onEventsType = Record<string, onEventFunction>;
+// export type onEventsType = Record<string, onEventFunction>;
 
 export interface EChartsWrapper {
   sx: SxProps<Theme>;
   option: EChartsCoreOption;
   theme?: string;
   onChartReady?: (instance: ECharts) => void;
-  onEvents?: onEventsType;
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  onEvents?: any;
 }
 
 export function EChartsWrapper(props: EChartsWrapper) {
@@ -80,7 +81,8 @@ export function EChartsWrapper(props: EChartsWrapper) {
 }
 
 // Validate event config and bind custom events
-function bindEvents(instance: ECharts, events: onEventsType) {
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
+function bindEvents(instance: ECharts, events: any) {
   function bindEvent(eventName: string, onEventFunction: unknown) {
     if (typeof eventName === 'string' && typeof onEventFunction === 'function') {
       instance.on(eventName, (param) => {

@@ -171,9 +171,9 @@ const benchmarkDashboard: DashboardResource = {
             decimal_places: 2,
             suffix: 'kilogram', // https://tc39.es/proposal-unified-intl-numberformat/section6/locales-currencies-tz_proposed_out.html#sec-issanctionedsimpleunitidentifier
           },
-          sparkline: {
-            show: true,
-          },
+          // sparkline: {
+          //   show: true,
+          // },
           thresholds: {
             default_color: '#EA4747', // red
           },
